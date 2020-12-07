@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "baseUrl": ".",
+    "paths": {
+      "view/*": [
+        "./src/views/*"
+      ],
+      "component/*": [
+        "./src/components/*"
+      ],
+      "api/*": [
+        "./src/apis/*"
+      ],
+      "store/*": [
+        "./src/store/*"
+      ],
+      "assets/*": [
+        "./src/assets/*"
+      ],
+      "layout/*": [
+        "./src/layout/*"
+      ],
+      "tools/*": [
+        "./src/tools/*"
+      ],
+      "router/*": [
+        "./src/router/*"
+      ],
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

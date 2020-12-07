@@ -10,15 +10,15 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-unused-vars": process.env.NODE_ENV === "production" ? "error" : "warn",
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         singleQuote: false,
-        trailingComma: true,
+        trailingComma: "es5",
         bracketSpacing: true,
         jsxBracketSameLine: true,
         arrowParens: "always",
-        parser: "flow",
       },
     ],
   },
