@@ -1,12 +1,11 @@
-import { getProblems } from "api/problem";
+import { getSolutions } from "api/solution";
 import { createQuery } from "tools/page";
 import { wrap } from "tools/promise";
 import { alterPropName } from "tools/object";
-
+import { store } from "store";
 /**
  * Bind Components：
- *  BProblemList
- *  BProblemFilter
+ *  BSolutionList
  */
 export default {
   namespaced: true,
@@ -18,7 +17,7 @@ export default {
         header: "ID",
         sortable: true,
         headerStyle: "width:6em",
-        format: (v) => `#${v}`,
+        format: (v) => `$${v}`,
       },
       type: {
         is: "span",
@@ -26,34 +25,34 @@ export default {
         sortable: true,
         headerStyle: "width:6em",
       },
-      title: {
+      problem_id: {
         is: "span",
-        header: "Title",
+        header: "Problem ID",
         sortable: true,
         headerStyle: "width:6em",
       },
-      tags: {
-        is: "tp-tags",
-        header: "Tag",
-        sortable: true,
-        headerStyle: "width:20em",
-        valueKey: "list",
-      },
-      hard: {
+      user_id: {
         is: "span",
-        header: "Hard",
+        header: "User ID",
         sortable: true,
         headerStyle: "width:6em",
       },
-      submit_num: {
+      result: {
         is: "span",
-        header: "Total",
+        header: "Result",
+        sortable: true,
+        headerStyle: "width:6em",
+        format: (v) => store.state.resultMap[v],
+      },
+      created_at: {
+        is: "span",
+        header: "Created At",
         sortable: true,
         headerStyle: "width:6em",
       },
-      ac_num: {
+      updated_at: {
         is: "span",
-        header: "AC",
+        header: "Updated At",
         sortable: true,
         headerStyle: "width:6em",
       },
@@ -108,7 +107,7 @@ export default {
       if (!state.order.isUse) commit("setOrder", { isUse: useOrder });
       if (!state.filter.isUse) commit("setFilter", { isUse: useFilter });
       const [err, res] = await wrap(
-        getProblems({
+        getSolutions({
           pageNum: state.page.pageNum,
           pageSize: state.page.pageSize,
           filter: createQuery(state.filter),

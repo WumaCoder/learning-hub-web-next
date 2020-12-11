@@ -1,0 +1,9 @@
+.cur-pointer{
+  cursor:pointer;
+}
+
+.text {
+  &-pre-wrap {
+    white-space: pre-wrap;
+  }
+}

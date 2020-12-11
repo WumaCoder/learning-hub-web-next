@@ -27,13 +27,6 @@ export function verify(data, rules) {
   const keys = Object.keys(rules);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    if (typeof data[key] !== rules[key].type) {
-      return {
-        field: key,
-        isPass: false,
-        error: "type err",
-      };
-    }
 
     if (rules[key].required && isEmpty(data[key])) {
       return {
@@ -42,6 +35,15 @@ export function verify(data, rules) {
         error: "value not null",
       };
     }
+
+    if (typeof data[key] !== rules[key].type) {
+      return {
+        field: key,
+        isPass: false,
+        error: "type err",
+      };
+    }
+
     if (rules[key].resolve)
       if (!rules[key].resolve(data[key])) {
         return {

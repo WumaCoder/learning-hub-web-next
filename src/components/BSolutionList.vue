@@ -21,33 +21,36 @@ export default {
   components: { TablePart },
   setup() {
     const router = useRouter();
-    const problem = useStoreHelpers("problem");
+    const solution = useStoreHelpers("solution");
 
-    problem.dispatch("request");
+    solution.dispatch("request");
 
     const onPage = async (page) => {
-      problem.commit("setPage", page);
-      await problem.dispatch("request");
+      solution.commit("setPage", page);
+      await solution.dispatch("request");
     };
 
     const onOrder = async (order) => {
       order.isUse = true;
-      problem.commit("setOrder", order);
-      await problem.dispatch("request");
+      solution.commit("setOrder", order);
+      await solution.dispatch("request");
     };
 
     const onFilter = async (filter) => {
       filter.isUse = true;
-      problem.commit("setFilter", filter);
-      await problem.dispatch("request");
+      solution.commit("setFilter", filter);
+      await solution.dispatch("request");
     };
 
     const onRowClick = async (event) => {
-      router.push(`/problem-${event.data.type}?problemId=${event.data.id}`);
+      console.log(event);
+      router.push(
+        `/problem-${event.data.type}?problemId=${event.data.problem_id}`
+      );
     };
 
     return {
-      state: problem.state,
+      state: solution.state,
 
       onPage,
       onOrder,

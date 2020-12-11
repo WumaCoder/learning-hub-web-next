@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { nextTick, onMounted, ref, watch, watchEffect } from "vue";
+import { onMounted, ref } from "vue";
 
 import { keymap } from "@codemirror/next/view";
 import { EditorView, basicSetup } from "@codemirror/next/basic-setup";

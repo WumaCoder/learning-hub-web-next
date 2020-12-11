@@ -8,26 +8,32 @@
   </div>
   <div class="p-grid">
     <div class="p-col-9">
-      <p-panel class="p-mt-2 p-text-truncate" header="Description">
+      <p-panel
+        v-if="problem.description"
+        class="p-mt-2 p-text-truncate"
+        header="Description"
+      >
         <div class="text-pre-wrap" v-text="problem.description"></div>
       </p-panel>
-      <p-panel class="p-mt-2" header="Input">
+      <p-panel v-if="problem.data.input" class="p-mt-2" header="Input">
         <div class="text-pre-wrap" v-text="problem.data.input"></div>
       </p-panel>
-      <p-panel class="p-mt-2" header="Output">
+      <p-panel v-if="problem.data.output" class="p-mt-2" header="Output">
         <div class="text-pre-wrap" v-text="problem.data.output"></div>
       </p-panel>
-      <p-panel class="p-mt-2" header="Sample Input">
+      <p-panel
+        v-if="problem.data.sample_input"
+        class="p-mt-2"
+        header="Sample Input"
+      >
         <div class="text-pre-wrap" v-text="problem.data.sample_input"></div>
       </p-panel>
-      <p-panel class="p-mt-2" header="Sample Output">
+      <p-panel
+        v-if="problem.data.sample_output"
+        class="p-mt-2"
+        header="Sample Output"
+      >
         <div class="text-pre-wrap" v-text="problem.data.sample_output"></div>
-      </p-panel>
-      <p-panel class="p-mt-2" header="Hint">
-        <div class="text-pre-wrap" v-text="problem.hint"></div>
-      </p-panel>
-      <p-panel class="p-mt-2" header="Source">
-        <div class="text-pre-wrap" v-text="problem.source"></div>
       </p-panel>
       <p-panel class="p-mt-2" header="Code">
         <div class="p-d-flex p-jc-between">
@@ -83,6 +89,9 @@
           <div class="p-col-6">Run Memory: {{ runState.runMemory }}B</div>
         </div>
       </p-panel>
+      <p v-if="problem.hint" class="p-text-center p-text-light">
+        Hint: {{ problem.hint }}
+      </p>
     </div>
     <div class="p-col-3">
       <p-fieldset legend="Info">
@@ -99,6 +108,10 @@
           <div class="p-col-8" v-text="problem.hard"></div>
         </div>
         <div class="p-grid">
+          <div class="p-col-4">Source</div>
+          <div class="p-col-8" v-text="problem.source"></div>
+        </div>
+        <div class="p-grid">
           <div class="p-col-4">Created By</div>
           <div
             class="p-col-8"
@@ -113,7 +126,7 @@
         </div>
       </p-fieldset>
       <p-fieldset legend="Stat" class="p-mt-3">
-        <p-chart type="pie" :data="stat" />
+        <p-chart ref="chart" type="pie" :data="stat" />
       </p-fieldset>
     </div>
   </div>
@@ -178,6 +191,7 @@ export default {
       submit_num: 0,
     });
 
+    const chart = ref();
     const stat = reactive({
       labels: ["Submit Count", "AC Count"],
       datasets: [
@@ -197,6 +211,7 @@ export default {
       lang: "cpp",
     });
 
+    /**event handler */
     const onClickSubmit = async () => {
       model.problemId = route.query.problemId;
       model.gourpId = route.query.gourpId;
@@ -254,14 +269,19 @@ export default {
       editor.value.clear();
     };
 
+    /**left handler */
     onMounted(async () => {
       model.problemId = route.query.problemId;
       const res = await getProblem(model.problemId);
+      stat.datasets[0].data[0] = res.data.submit_num | 1;
+      stat.datasets[0].data[1] = res.data.ac_num | 1;
+      chart.value.refresh();
       Object.assign(problem, res.data);
     });
 
     return {
       editor,
+      chart,
 
       langs,
       runState,
@@ -275,11 +295,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.text {
-  &-pre-wrap {
-    white-space: pre-wrap;
-  }
-}
-</style>

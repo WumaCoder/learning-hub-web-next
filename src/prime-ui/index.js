@@ -16,6 +16,9 @@ import SelectButton from "primevue/selectbutton";
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import ProgressSpinner from "primevue/progressspinner";
+import RadioButton from "primevue/radiobutton";
+import Message from "primevue/message";
+import Checkbox from "primevue/checkbox";
 
 const useComponents = {
   Button,
@@ -30,6 +33,9 @@ const useComponents = {
   SelectButton,
   Toast,
   ProgressSpinner,
+  RadioButton,
+  Message,
+  Checkbox,
 };
 
 const prev = "P";

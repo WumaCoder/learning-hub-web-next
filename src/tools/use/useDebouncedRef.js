@@ -18,3 +18,12 @@ export function useDebouncedRef(value, delay = 200) {
     };
   });
 }
+
+export function deBounced(interval) {
+  let timeout = null;
+
+  return function(callback) {
+    clearTimeout(timeout);
+    timeout = setTimeout(callback, interval);
+  };
+}

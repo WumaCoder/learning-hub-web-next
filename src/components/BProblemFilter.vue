@@ -1,7 +1,12 @@
 <template>
-  <span class="p-input-icon-left">
-    <i class="pi pi-search" />
-    <p-input-text v-model="value" placeholder="Global Search" />
+  <span :class="{ 'p-input-icon-left': showIcon }">
+    <i v-if="showIcon" class="pi pi-search" />
+    <component
+      :is="is"
+      v-model="value"
+      :style="[$attrs.inputStyle]"
+      :placeholder="placeholder"
+    />
   </span>
 </template>
 
@@ -9,25 +14,58 @@
 import { watch } from "vue";
 import { useStoreHelpers } from "tools/use/useStoreHelpers";
 import { useDebouncedRef } from "tools/use/useDebouncedRef";
-import { isNumber } from "tools/type";
+
 export default {
-  setup() {
+  props: {
+    showIcon: Boolean,
+    placeholder: String,
+    queryModels: {
+      default: () => [],
+      type: Array,
+    },
+    /**
+     * queryModel[*](field, value)=>{field, model, value}|null
+     */
+    is: { default: "p-input-text", type: String } /** 组件 */,
+    options: Array,
+    field: String,
+    model: String,
+  },
+  setup(props) {
     const value = useDebouncedRef("", 500);
     const { commit, dispatch } = useStoreHelpers("problem");
     watch(value, async (v) => {
-      let field = "title";
-      let model = "like";
-      if (isNumber(v)) {
-        field = "id";
-        model = "default";
+      if (!v) {
+        commit("setFilter", {
+          isUse: false,
+        });
+        await dispatch("request");
+        return;
       }
-      commit("setFilter", {
-        isUse: true,
-        model,
-        field,
-        value: v,
-      });
-      await dispatch("request");
+      let filterModel = null;
+      for (let i = 0; i < props.queryModels.length; i++) {
+        const fun = props.queryModels[i];
+        filterModel = fun(props.field, v);
+        if (filterModel) break;
+      }
+
+      if (filterModel) {
+        commit("setFilter", {
+          isUse: true,
+          model: filterModel.model,
+          field: filterModel.field,
+          value: filterModel.value,
+        });
+      } else {
+        commit("setFilter", {
+          isUse: true,
+          model: props.model,
+          field: props.field,
+          value: v,
+        });
+      }
+
+      await dispatch("request", 1, 2);
     });
     return {
       value,

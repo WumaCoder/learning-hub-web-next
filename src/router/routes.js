@@ -51,6 +51,34 @@ export const routes = [
         component: () =>
           import(/* webpackChunkName: "problem-fill" */ "view/ProblemFill.vue"),
       },
+      {
+        path: "/solution",
+        name: "Solution",
+        component: () =>
+          import(/* webpackChunkName: "solution" */ "view/Solution.vue"),
+      },
+      {
+        path: "/rank",
+        name: "Rank",
+        component: () => import(/* webpackChunkName: "rank" */ "view/Rank.vue"),
+      },
+      {
+        path: "/game",
+        name: "Game",
+        component: () => import(/* webpackChunkName: "game" */ "view/Game.vue"),
+      },
+      {
+        path: "/message",
+        name: "Message",
+        component: () =>
+          import(/* webpackChunkName: "message" */ "view/Message.vue"),
+      },
+      {
+        path: "/login",
+        name: "Login",
+        component: () =>
+          import(/* webpackChunkName: "login" */ "view/Login.vue"),
+      },
     ],
   },
 ];
