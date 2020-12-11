@@ -1,7 +1,7 @@
 import { customRef } from "vue";
 
 export function useDebouncedRef(value, delay = 200) {
-  let timeout;
+  let debounce = debounced(delay);
   return customRef((track, trigger) => {
     return {
       get() {
@@ -9,18 +9,18 @@ export function useDebouncedRef(value, delay = 200) {
         return value;
       },
       set(newValue) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
+        debounce(() => {
           value = newValue;
           trigger();
-        }, delay);
+        });
       },
     };
   });
 }
 
-export function deBounced(interval) {
+export function debounced(interval) {
   let timeout = null;
+  // TODO: 注意这里可能会引起内存泄漏
 
   return function(callback) {
     clearTimeout(timeout);

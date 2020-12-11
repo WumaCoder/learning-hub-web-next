@@ -5,6 +5,7 @@
     :is-loading="state.isLoading"
     :is-lazy="true"
     :page="state.page"
+    :is-filter="true"
     @on-page="onPage"
     @on-order="onOrder"
     @on-filter="onFilter"
@@ -43,7 +44,6 @@ export default {
     };
 
     const onRowClick = async (event) => {
-      console.log(event);
       router.push(
         `/problem-${event.data.type}?problemId=${event.data.problem_id}`
       );

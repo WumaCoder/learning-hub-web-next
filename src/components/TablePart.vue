@@ -58,7 +58,8 @@
 
 <script>
 import Tags from "./Tags.vue";
-import { useDebouncedRef } from "tools/use/useDebouncedRef";
+import { debounced } from "tools/use/useDebouncedRef";
+import { reactive } from "vue";
 
 /**
  * @prop {object} page 对象
@@ -97,7 +98,8 @@ export default {
   emits: ["on-page", "on-order", "on-filter", "on-row-click"],
   components: packComponents({ Tags }),
   setup(props, { emit }) {
-    const filter = useDebouncedRef({}, 500);
+    const debounce = debounced(500);
+    const filter = reactive({});
     const onPage = async (event) => {
       const pageNum = event.page + 1;
       const pageSize = event.rows;
@@ -111,7 +113,7 @@ export default {
     };
 
     const onInput = async (field, value) => {
-      emit("on-filter", { field, value, model: "like" });
+      debounce(() => emit("on-filter", { field, value, model: "like" }));
     };
 
     const formatHandler = (format = (v) => v, v) => {
