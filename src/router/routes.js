@@ -19,37 +19,15 @@ export const routes = [
       },
       {
         path: "/problem",
+        name: "ProblemList",
+        component: () =>
+          import(/* webpackChunkName: "problem-list" */ "view/ProblemList.vue"),
+      },
+      {
+        path: "/problem/:problemId",
         name: "Problem",
         component: () =>
           import(/* webpackChunkName: "problem" */ "view/Problem.vue"),
-      },
-      {
-        path: "/problem-code",
-        name: "ProblemCode",
-        component: () =>
-          import(/* webpackChunkName: "problem-code" */ "view/ProblemCode.vue"),
-      },
-      {
-        path: "/problem-single",
-        name: "ProblemSingle",
-        component: () =>
-          import(
-            /* webpackChunkName: "problem-single" */ "view/ProblemSingle.vue"
-          ),
-      },
-      {
-        path: "/problem-multi",
-        name: "ProblemMulti",
-        component: () =>
-          import(
-            /* webpackChunkName: "problem-multi" */ "view/ProblemMulti.vue"
-          ),
-      },
-      {
-        path: "/problem-fill",
-        name: "ProblemFill",
-        component: () =>
-          import(/* webpackChunkName: "problem-fill" */ "view/ProblemFill.vue"),
       },
       {
         path: "/solution",

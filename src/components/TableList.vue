@@ -15,12 +15,8 @@
     @sort="onSort"
     @row-click="$emit('on-row-click', $event)"
   >
-    <template #empty>
-      No customers found.
-    </template>
-    <template #loading>
-      Loading customers data. Please wait.
-    </template>
+    <template #empty> No customers found. </template>
+    <template #loading> Loading customers data. Please wait. </template>
     <!-- <template #paginatorLeft>
       <p-button type="button" icon="pi pi-refresh" class="p-button-text" />
     </template>
@@ -34,7 +30,7 @@
         :sortable="item.sortable"
         :headerStyle="item.headerStyle"
       >
-        <template #body="{data}">
+        <template #body="{ data }">
           <component
             :is="item.is"
             :prop="{ key, column: item, row: data, rowItem: data[key] }"
@@ -46,7 +42,7 @@
           <p-inputText
             v-model="filter[key]"
             type="text"
-            style="width:100%"
+            style="width: 100%"
             :placeholder="'Search by ' + item.header"
             @input="onInput(key, filter[key])"
           />

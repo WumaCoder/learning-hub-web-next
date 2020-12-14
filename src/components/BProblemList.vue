@@ -1,5 +1,5 @@
 <template>
-  <table-part
+  <table-list
     :data="state.list"
     :column="state.column"
     :is-loading="state.isLoading"
@@ -9,16 +9,16 @@
     @on-order="onOrder"
     @on-filter="onFilter"
     @on-row-click="onRowClick"
-  ></table-part>
+  ></table-list>
 </template>
 
 <script>
-import TablePart from "./TablePart";
+import TableList from "./TableList";
 import { useStoreHelpers } from "tools/use/useStoreHelpers";
 import { useRouter } from "vue-router";
 
 export default {
-  components: { TablePart },
+  components: { TableList },
   setup() {
     const router = useRouter();
     const problem = useStoreHelpers("problem");
@@ -43,7 +43,7 @@ export default {
     };
 
     const onRowClick = async (event) => {
-      router.push(`/problem-${event.data.type}?problemId=${event.data.id}`);
+      router.push(`/problem/${event.data.id}`);
     };
 
     return {

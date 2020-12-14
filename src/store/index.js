@@ -20,7 +20,7 @@ export const store = {
     },
     navList: [
       {
-        name: "Problem",
+        name: "ProblemList",
         label: "Problem",
         icon: "pi pi-fw pi-paperclip",
       },

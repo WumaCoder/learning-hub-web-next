@@ -48,7 +48,7 @@ export default {
     const store = useStore();
 
     const onClickItem = ({ item }) => {
-      router.push({ name: item.label });
+      router.push({ name: item.name });
     };
 
     const navMap = reactive([]);
